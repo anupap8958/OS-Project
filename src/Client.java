@@ -33,11 +33,11 @@ public class Client {
     public void reciveAllFile() {
         JFrame frameReciveAllFile = new JFrame();
         frameReciveAllFile.setTitle("DOWNLOADER");
-        frameReciveAllFile.setSize(600, 600);
+        frameReciveAllFile.setSize(780, 570);
         frameReciveAllFile.setResizable(false);
         frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
         frameReciveAllFile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameReciveAllFile.setLocationRelativeTo(null);
+        frameReciveAllFile.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
         frameReciveAllFile.setVisible(true);
 
         try {
@@ -58,12 +58,12 @@ public class Client {
                 fileList[i][2] = din.readUTF(); // ขนาดไฟล์
             }
             for (int i = 0; i < FileLength; i++) {
-                rowfileList[i][0] = fileList[i][0].toString();
-                rowfileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1,
-                        fileList[i][1].toString().length());
-                rowfileList[i][2] = fileList[i][2].toString() + "KB";
+                rowfileList[i][0] = "  " + fileList[i][0].toString().substring(0,fileList[i][0].toString().lastIndexOf("."));
+                rowfileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1, fileList[i][1].toString().length());
+                rowfileList[i][2] = fileList[i][2].toString() + " KB ";
                 rowfileList[i][3] = fileList[i][0].toString();
             }
+            
             TableCellRenderer tableRenderer;
             DefaultTableModel model = new DefaultTableModel();
             model.setDataVector(rowfileList, colHeaderFileList);
@@ -73,6 +73,16 @@ public class Client {
             panelFileList = new JPanel();
             tableFileList.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
             tableFileList.setRowHeight(40);
+            tableFileList.setPreferredScrollableViewportSize(new Dimension(750,500)); //ปรับขนาดตาราง
+            tableFileList.getColumnModel().getColumn(0).setPreferredWidth(400); //ปรับขนาดคอลัม
+
+            // ปรับข้อความชิดซ้ายชิดขวา
+            DefaultTableCellRenderer d = new DefaultTableCellRenderer();
+            DefaultTableCellRenderer d2 = new DefaultTableCellRenderer();
+            d.setHorizontalAlignment(JLabel.CENTER);
+            tableFileList.getColumnModel().getColumn(1).setCellRenderer(d);
+            d2.setHorizontalAlignment(JLabel.RIGHT);
+            tableFileList.getColumnModel().getColumn(2).setCellRenderer(d2);
 
             JScrollPane scrollPaneFileList = new JScrollPane(tableFileList);
             panelFileList.add(scrollPaneFileList);

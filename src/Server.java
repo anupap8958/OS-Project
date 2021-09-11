@@ -2,6 +2,9 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.*;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class Server {
 
     ServerSocket socketServer;
@@ -12,6 +15,32 @@ public class Server {
     }
 
     public Server() {
+        // เพิ่ม gui
+        // Frame
+        JFrame frameServer = new JFrame();
+        frameServer.setTitle("Server");
+        frameServer.setSize(600, 600);
+        frameServer.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+        frameServer.setVisible(true);
+        // panel welcome
+        JPanel jPanel = new JPanel();
+        // jPanel.setBounds(156, 424, 156, 424);
+        jPanel.setBounds(220, 250, 185, 92);
+        // panel buttonlog
+        JPanel jPanel2 = new JPanel();
+        jPanel2.setBounds(280, 67, 133, 92);
+        // button
+        JButton jButton1 = new JButton();
+        jButton1.setText("Log");
+        // lable welcome
+        JLabel jLabel1 = new JLabel();
+        jLabel1.setText("Welcome To Server");
+        jLabel1.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
+        frameServer.setLocationRelativeTo(null);
+        frameServer.add(jPanel);
+        frameServer.add(jPanel2);
+        jPanel.add(jLabel1);
+        jPanel.add(jButton1);
 
         try {
             socketServer = new ServerSocket(PORT);
@@ -107,11 +136,12 @@ class HandleClient extends Thread {
 
                                     while ((count = dinClient.read(dataPatial)) != -1) {
                                         total += count;
-                                        
-                                        doutClient.write(dataPatial, 0, count);
-                                        if (total >= fileLength) { break; }
 
-                                         
+                                        doutClient.write(dataPatial, 0, count);
+                                        if (total >= fileLength) {
+                                            break;
+                                        }
+
                                     }
 
                                     System.out.println("finish");
