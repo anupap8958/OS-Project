@@ -38,7 +38,7 @@ class HandleClient extends Thread {
     Socket socketClient;
     DataInputStream din;
     DataOutputStream dout;
-    String path = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/server/";
+    String path = "C:/Users/katakarn/Desktop/Server Files/";
     File file = new File(path);
     File[] fileName;
 
