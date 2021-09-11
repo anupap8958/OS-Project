@@ -106,7 +106,7 @@ public class Client {
                     System.out.println(Thread.currentThread().getName());
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
-                    String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/" + file;
+                    String filePath = "C:/Users/katakarn/Desktop/Client Files/" + file;
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();
                     RandomAccessFile writer = new RandomAccessFile(filePath, "rw");
