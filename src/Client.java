@@ -2,9 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
-import java.util.*;
-
-import javax.annotation.processing.SupportedOptions;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -109,7 +106,6 @@ public class Client {
             } catch (Exception e) {
 
             }
-        
 
     }
 
