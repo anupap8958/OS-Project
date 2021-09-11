@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 public class Client {
 
     Socket socketClient;
@@ -32,11 +34,12 @@ public class Client {
     public void reciveAllFile() {
         JFrame frameReciveAllFile = new JFrame();
         frameReciveAllFile.setTitle("DOWNLOADER");
-        frameReciveAllFile.setSize(800, 800);
+        frameReciveAllFile.setSize(780, 570);
         frameReciveAllFile.setResizable(false);
         frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
         frameReciveAllFile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameReciveAllFile.setLocationRelativeTo(null);
+        frameReciveAllFile.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
+        frameReciveAllFile.setBackground(Color.YELLOW);
         frameReciveAllFile.setVisible(true);
 
         try {
@@ -45,8 +48,8 @@ public class Client {
             FileLength = din.readInt();
             fileList = new Object[FileLength][4];
 
-            String[] colHeaderFileList = {"All File", "File Type", "Size", "Action"};
-            String[][] rowfileList = new String[FileLength][4];
+            String[] colHeaderFileList = {"All File", "File Type", "Size", "Action"}; //เก็บชื่อหัวตาราง
+            String[][] rowFileList = new String[FileLength][4]; //เก็บชื่อไฟล์ต่างๆ
             for (int i = 0; i < FileLength; i++) {
                 fileList[i][0] = din.readUTF(); // ชื่อไฟล์
             }
@@ -57,17 +60,28 @@ public class Client {
                 fileList[i][2] = din.readUTF(); // ขนาดไฟล์
             }
             for (int i = 0; i < FileLength; i++) {
-                rowfileList[i][0] = fileList[i][0].toString();
-                rowfileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1, fileList[i][1].toString().length());;
-                rowfileList[i][2] = fileList[i][2].toString() + "KB";
+                rowFileList[i][0] = "  " + fileList[i][0].toString().substring(0,fileList[i][0].toString().indexOf("."));
+                rowFileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1, fileList[i][1].toString().length());;
+                rowFileList[i][2] = fileList[i][2].toString() + " KB  ";
             }
 
                 JPanel panelFileList = new JPanel();
-                    JTable tableFileList = new JTable(rowfileList, colHeaderFileList);
+                panelFileList.setBackground(Color.YELLOW);
+                    JTable tableFileList = new JTable(rowFileList, colHeaderFileList); //แสดง rowFileList กับ colHeaderFileList ลงในตาราง
                     tableFileList.setVisible(true);
-                    tableFileList.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
-                    tableFileList.setRowHeight(40);
-                    tableFileList.setPreferredScrollableViewportSize(new Dimension(750,700));
+                    tableFileList.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13)); //แก้ตัวอักษร
+                    tableFileList.setRowHeight(40); //ปรับความสูง row
+                    tableFileList.setPreferredScrollableViewportSize(new Dimension(750,500)); //ปรับขนาดตาราง
+                    tableFileList.getColumnModel().getColumn(0).setPreferredWidth(400); //ปรับขนาดคอลัม
+                    tableFileList.setFocusable(false);
+                    tableFileList.setBackground(Color.getHSBColor(0, 0, 30));
+                    DefaultTableCellRenderer d = new DefaultTableCellRenderer();
+                    DefaultTableCellRenderer d2 = new DefaultTableCellRenderer();
+                    d.setHorizontalAlignment(JLabel.CENTER);
+                    tableFileList.getColumnModel().getColumn(1).setCellRenderer(d);
+                    d2.setHorizontalAlignment(JLabel.RIGHT);
+                    tableFileList.getColumnModel().getColumn(2).setCellRenderer(d2);
+
                     JScrollPane scrollPaneFileList = new JScrollPane(tableFileList);
                     panelFileList.add(scrollPaneFileList);
             frameReciveAllFile.add(panelFileList);
