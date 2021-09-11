@@ -2,8 +2,6 @@
 import java.io.*;
 import java.net.*;
 import java.nio.file.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Server {
 
@@ -115,7 +113,7 @@ class HandleClient extends Thread {
                                     dinClient.close();
                                     socket.close();
                                 } catch (IOException ex) {
-                                    Logger.getLogger(HandleClient.class.getName()).log(Level.SEVERE, null, ex);
+                                   
                                     System.out.println(ex);
                                 }
 
