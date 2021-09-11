@@ -75,6 +75,7 @@ public class Client {
                     tableFileList.getColumnModel().getColumn(0).setPreferredWidth(400); //ปรับขนาดคอลัม
                     tableFileList.setFocusable(false);
                     tableFileList.setBackground(Color.getHSBColor(0, 0, 30));
+                    // ปรับข้อความชิดซ้ายชิดขวา
                     DefaultTableCellRenderer d = new DefaultTableCellRenderer();
                     DefaultTableCellRenderer d2 = new DefaultTableCellRenderer();
                     d.setHorizontalAlignment(JLabel.CENTER);
@@ -85,6 +86,9 @@ public class Client {
                     JScrollPane scrollPaneFileList = new JScrollPane(tableFileList);
                     panelFileList.add(scrollPaneFileList);
             frameReciveAllFile.add(panelFileList);
+
+            //JButton dowloadButton = new JButton();
+            //dowloadButton.addActionListener(e -> {});
             reqFile();
 
         } catch (Exception e) {
