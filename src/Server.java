@@ -2,8 +2,10 @@
 import java.io.*;
 import java.net.*;
 import java.nio.file.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.*;
+
+import java.util.*;
+import java.awt.*;
 
 public class Server {
 
@@ -16,7 +18,32 @@ public class Server {
     }
 
     public Server() {
-
+        // เพิ่ม gui
+        // Frame
+        JFrame frameServer = new JFrame();
+        frameServer.setTitle("Server");
+        frameServer.setSize(600, 600);
+        frameServer.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+        frameServer.setVisible(true);
+        //panel welcome
+        JPanel jPanel = new JPanel();
+        //jPanel.setBounds(156, 424, 156, 424);
+        jPanel.setBounds(220, 250, 185, 92);
+        //panel buttonlog
+        JPanel jPanel2 = new JPanel();
+        jPanel2.setBounds(280, 67, 133, 92);
+        //button
+        JButton jButton1 = new JButton();
+        jButton1.setText("Log");
+        //lable welcome
+        JLabel jLabel1 = new JLabel();
+        jLabel1.setText("Welcome To Server");
+        jLabel1.setFont(new Font("TH-Sarabun-PSK", Font.BOLD,20 ));
+        //
+        frameServer.add(jPanel);
+        frameServer.add(jPanel2);
+        jPanel.add(jLabel1);
+        jPanel.add(jButton1);
         try {
             socketServer = new ServerSocket(PORT);
             ServerSocket serverSocket = new ServerSocket(8087);
@@ -26,8 +53,12 @@ public class Server {
                 new HandleClient(socketClient, serverSocket).start();
             }
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
         }
+    }
+
+    private AbstractButton getContentPane() {
+        return null;
     }
 }
 
@@ -38,7 +69,7 @@ class HandleClient extends Thread {
     Socket socketClient;
     DataInputStream din;
     DataOutputStream dout;
-    String path = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/server/";
+    String path = "C:/Users/Pond/Desktop/ปี3เทอม1/Operating Systems/OSproJ new/OSProject/FileServer";
     File file = new File(path);
     File[] fileName;
 
@@ -60,12 +91,12 @@ class HandleClient extends Thread {
                 dout.writeUTF("" + Files.probeContentType(f.toPath())); // ชนิดข้อมูลไฟล์
             }
             for (File f : fileName) {
-                long tem = f.length()/1024+1;
+                long tem = f.length() / 1024 + 1;
                 dout.writeUTF("" + tem); // ขนาดไฟล์
             }
             sendFileReqToClient();
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
         }
     }
 
@@ -93,7 +124,8 @@ class HandleClient extends Thread {
                             new Thread(() -> {
                                 try {
                                     DataOutputStream doutClient = new DataOutputStream(socket.getOutputStream());
-                                    DataInputStream dinClient = new DataInputStream(new FileInputStream(file.getAbsolutePath()));
+                                    DataInputStream dinClient = new DataInputStream(
+                                            new FileInputStream(file.getAbsolutePath()));
                                     doutClient.writeInt(indexStart);
                                     doutClient.writeInt(fileLength);
                                     byte[] dataPatial = new byte[fileLength];
@@ -101,7 +133,8 @@ class HandleClient extends Thread {
                                     System.out.println("Start : " + indexStart);
                                     System.out.println("File : " + fileLength);
 
-                                    System.out.println(Thread.currentThread().getName() + " start :" + indexStart + "end : " + (indexStart + fileLength) + " flieLength :" + fileLength);
+                                    System.out.println(Thread.currentThread().getName() + " start :" + indexStart
+                                            + "end : " + (indexStart + fileLength) + " flieLength :" + fileLength);
 
                                     dinClient.skip(indexStart);
                                     dinClient.read(dataPatial);
@@ -115,7 +148,7 @@ class HandleClient extends Thread {
                                     dinClient.close();
                                     socket.close();
                                 } catch (IOException ex) {
-                                    Logger.getLogger(HandleClient.class.getName()).log(Level.SEVERE, null, ex);
+
                                     System.out.println(ex);
                                 }
 
