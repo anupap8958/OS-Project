@@ -5,7 +5,6 @@ import java.net.*;
 import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.*;
-
 public class Client {
 
     Socket socketClient;
@@ -33,7 +32,7 @@ public class Client {
     public void reciveAllFile() {
         JFrame frameReciveAllFile = new JFrame();
         frameReciveAllFile.setTitle("DOWNLOADER");
-        frameReciveAllFile.setSize(600, 600);
+        frameReciveAllFile.setSize(800, 800);
         frameReciveAllFile.setResizable(false);
         frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
         frameReciveAllFile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,15 +62,14 @@ public class Client {
                 rowfileList[i][2] = fileList[i][2].toString() + "KB";
             }
 
-            JTable tableFileList = new JTable(rowfileList, colHeaderFileList);
-//            frameReciveAllFile.setVisible(false);
-            tableFileList.setVisible(true);
-            JPanel panelFileList = new JPanel();
-            tableFileList.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
-            tableFileList.setRowHeight(40);
-
-            JScrollPane scrollPaneFileList = new JScrollPane(tableFileList);
-            panelFileList.add(scrollPaneFileList);
+                JPanel panelFileList = new JPanel();
+                    JTable tableFileList = new JTable(rowfileList, colHeaderFileList);
+                    tableFileList.setVisible(true);
+                    tableFileList.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+                    tableFileList.setRowHeight(40);
+                    tableFileList.setPreferredScrollableViewportSize(new Dimension(750,700));
+                    JScrollPane scrollPaneFileList = new JScrollPane(tableFileList);
+                    panelFileList.add(scrollPaneFileList);
             frameReciveAllFile.add(panelFileList);
             reqFile();
 
