@@ -4,8 +4,6 @@ import java.nio.file.*;
 import java.time.*;
 import java.time.format.*;
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -33,6 +31,7 @@ public class Server {
         frameServer.setTitle("Server");
         frameServer.setSize(600, 600);
         frameServer.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+        frameServer.setBackground(Color.magenta);
         frameServer.setVisible(true);
 
         // panel Text
