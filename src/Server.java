@@ -1,14 +1,15 @@
-
 import java.io.*;
 import java.net.*;
 import java.nio.file.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import java.awt.*;
 
 public class Server {
 
     ServerSocket socketServer;
-    Socket socketClient;
     final int PORT = 8080;
 
     public static void main(String[] args) {
@@ -16,17 +17,48 @@ public class Server {
     }
 
     public Server() {
+        // เพิ่ม gui
+        // Frame
+        JFrame frameServer = new JFrame();
+        frameServer.setTitle("Server");
+        frameServer.setSize(600, 600);
+        frameServer.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+        frameServer.setVisible(true);
+
+        // panel Text
+        JPanel jPanelText = new JPanel();
+        jPanelText.setSize(300, 300);
+        // lable text
+        JLabel jLabelText = new JLabel();
+        jLabelText.setText("Welcome To Server");
+        jLabelText.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
+
+        // panel buttonlog
+        JPanel jPanelButton = new JPanel();
+        jPanelButton.setSize(20, 20);
+        // button
+        JButton jButton = new JButton();
+        jButton.setText("Log");
+
+        jPanelText.add(jLabelText);
+        jPanelButton.add(jButton);
+
+        frameServer.setLayout(new BoxLayout(frameServer.getContentPane(), BoxLayout.Y_AXIS));
+        frameServer.add(jPanelText);
+        frameServer.add(jPanelButton);
+        frameServer.setLocationRelativeTo(null); // ทำให้ frame อยู่กลางจอ
 
         try {
             socketServer = new ServerSocket(PORT);
             ServerSocket serverSocket = new ServerSocket(8087);
+            System.out.println("Waiting Connecting from client : " + PORT);
             while (true) {
-                System.out.println("Waiting Connecting from client : " + PORT);
-                socketClient = socketServer.accept();
-                new HandleClient(socketClient, serverSocket).start();
+
+                Socket socket = socketServer.accept();
+                new HandleClient(socket, serverSocket).start();
             }
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
         }
     }
 }
@@ -60,12 +92,12 @@ class HandleClient extends Thread {
                 dout.writeUTF("" + Files.probeContentType(f.toPath())); // ชนิดข้อมูลไฟล์
             }
             for (File f : fileName) {
-                long tem = f.length()/1024+1;
+                long tem = f.length() / 1024 + 1;
                 dout.writeUTF("" + tem); // ขนาดไฟล์
             }
             sendFileReqToClient();
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
         }
     }
 
@@ -73,8 +105,6 @@ class HandleClient extends Thread {
 
         String reqFile;
         try {
-            din = new DataInputStream(socketClient.getInputStream());
-            dout = new DataOutputStream(socketClient.getOutputStream());
 
             while (true) {
                 reqFile = din.readUTF();
@@ -93,29 +123,39 @@ class HandleClient extends Thread {
                             new Thread(() -> {
                                 try {
                                     DataOutputStream doutClient = new DataOutputStream(socket.getOutputStream());
-                                    DataInputStream dinClient = new DataInputStream(new FileInputStream(file.getAbsolutePath()));
+                                    DataInputStream dinClient = new DataInputStream(
+                                            new FileInputStream(file.getAbsolutePath()));
                                     doutClient.writeInt(indexStart);
                                     doutClient.writeInt(fileLength);
-                                    byte[] dataPatial = new byte[fileLength];
+                                    byte[] dataPatial = new byte[1024];
 
                                     System.out.println("Start : " + indexStart);
                                     System.out.println("File : " + fileLength);
 
-                                    System.out.println(Thread.currentThread().getName() + " start :" + indexStart + "end : " + (indexStart + fileLength) + " flieLength :" + fileLength);
+                                    System.out.println(Thread.currentThread().getName() + " start :" + indexStart
+                                            + "end : " + (indexStart + fileLength) + " flieLength :" + fileLength);
 
                                     dinClient.skip(indexStart);
-                                    dinClient.read(dataPatial);
-                                    System.out.println(Thread.currentThread().getName() + " skiped ");
-                                    int send = 0;
 
-                                    doutClient.write(dataPatial);
+                                    int count = 0;
+                                    int total = 0;
+
+                                    while ((count = dinClient.read(dataPatial)) != -1) {
+                                        total += count;
+
+                                        doutClient.write(dataPatial, 0, count);
+                                        if (total >= fileLength) {
+                                            break;
+                                        }
+
+                                    }
 
                                     System.out.println("finish");
                                     doutClient.close();
                                     dinClient.close();
                                     socket.close();
                                 } catch (IOException ex) {
-                                    Logger.getLogger(HandleClient.class.getName()).log(Level.SEVERE, null, ex);
+
                                     System.out.println(ex);
                                 }
 
@@ -127,7 +167,8 @@ class HandleClient extends Thread {
             }
 
         } catch (Exception e) {
-            System.out.println("Not Send");
+            // System.out.println("Not Send");
+            e.printStackTrace();
         }
 
     }
