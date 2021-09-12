@@ -64,10 +64,10 @@ public class Server {
         jLabel1.setText("Welcome To Server");
         jLabel1.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
         frameServer.setLocationRelativeTo(null);
-        frameServer.add(jPanel);
-        frameServer.add(jPanel2);
-        jPanel.add(jLabel1);
-        jPanel.add(jButton1);
+        frameServer.add(jPanelText);
+        frameServer.add(jPanelButton);
+        jPanelText.add(jLabel1);
+        jPanelButton.add(jButton1);
 
         // frameLog
         frameLog.setSize(500, 500);
