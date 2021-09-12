@@ -63,6 +63,7 @@ public class Server {
         JLabel jLabel1 = new JLabel();
         jLabel1.setText("Welcome To Server");
         jLabel1.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
+        frameServer.setLayout(new BoxLayout(frameServer.getContentPane(), BoxLayout.Y_AXIS));
         frameServer.setLocationRelativeTo(null);
         frameServer.add(jPanelText);
         frameServer.add(jPanelButton);
@@ -93,7 +94,7 @@ public class Server {
         Socket socketClient;
         DataInputStream din;
         DataOutputStream dout;
-        String path = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileServer/";
+        String path = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/server/";
         File file = new File(path);
         File[] fileName;
 

@@ -15,10 +15,8 @@ public class Client {
     Object[][] fileList;
     String file;
     JButton downloadButton = new JButton();
-    JPanel panelFileList;<<<<<<<HEAD=======
+    JPanel panelFileList;
     int total = 0;
-
-    >>>>>>>origin/anupap
 
     public static void main(String[] args) throws IOException {
         new Client().run();
@@ -99,11 +97,7 @@ public class Client {
                             "Do you want to download " + downloadButton.getName() + " ?"
                             , "Customized Dialog"
                             ,JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
-<<<<<<< HEAD
-                            ,new ImageIcon("C:/Users/katakarn/Desktop/Server Files/among.jpg")
-=======
-                            ,new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/among.png")
->>>>>>> origin/anupap
+                            ,new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Threadamong.png")
                             );
                     if (confirm == 0) {
                         reqFile();
