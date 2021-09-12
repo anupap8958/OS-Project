@@ -16,6 +16,11 @@ public class Client {
     String file;
     JButton downloadButton = new JButton();
     JPanel panelFileList;
+<<<<<<< HEAD
+=======
+    int total = 0;
+
+>>>>>>> origin/anupap
 
     public static void main(String[] args) throws IOException {
         new Client().run();
@@ -97,7 +102,11 @@ public class Client {
                             "Do you want to download " + downloadButton.getName() + " ?"
                             , "Customized Dialog"
                             ,JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
+<<<<<<< HEAD
                             ,new ImageIcon("C:/Users/katakarn/Desktop/Server Files/among.jpg")
+=======
+                            ,new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/among.png")
+>>>>>>> origin/anupap
                             );
                     if (confirm == 0) {
                         reqFile();
@@ -127,13 +136,48 @@ public class Client {
 
     public void reciveReqrFile() throws IOException {
         int size = din.readInt();
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setStringPainted(true);
+        progressBar.setBounds(50 , 25, 300 ,150);
+
+        JFrame downloadFrame = new JFrame("DOWNLOADER");
+        downloadFrame.setSize(400, 200);
+        downloadFrame.setResizable(false);
+        downloadFrame.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+        downloadFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        downloadFrame.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
+        downloadFrame.getContentPane().add(progressBar);
+        downloadFrame.setVisible(true);
+        
+        total = 0;
+        new Thread(() -> {
+            boolean success = false;
+            while(!success) {
+                try {
+                    Thread.sleep(100);
+                    if(total < size){
+                        progressBar.setValue((int)((total*100.0) / size));
+                    } else {
+                        success = true;
+                        progressBar.setValue(100);
+                    }
+                } catch (Exception e) {
+                    
+                } 
+            }
+        }).start();
+
         for (int i = 0; i < 10; i++) {
             new Thread(() -> {
                 try {
                     System.out.println(Thread.currentThread().getName());
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
+<<<<<<< HEAD
                     String filePath = "C:/Users/katakarn/Desktop/Client Files/" + downloadButton.getName();
+=======
+                    String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/" + downloadButton.getName();
+>>>>>>> origin/anupap
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();
                     RandomAccessFile writer = new RandomAccessFile(filePath, "rw");
@@ -141,11 +185,13 @@ public class Client {
                     byte[] data = new byte[1024];
                     int receive = 0;
                     while (receive > -1) {
+
                         receive = dinClient.read(data);
                         if (receive == -1) {
                             break;
                         }
                         writer.write(data, 0, receive);
+                        updateDownload(receive);
                     }
                     System.out.println("finish");
                     // File fileDownload = new File(filePath);
@@ -160,6 +206,10 @@ public class Client {
                 }
             }).start();
         }
+    }
+
+    private synchronized void updateDownload(int read) {
+        total += read;
     }
 
     public void run() throws IOException {
