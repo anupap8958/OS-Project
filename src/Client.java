@@ -33,7 +33,7 @@ public class Client {
 
     public void reciveAllFile() {
         JFrame frameReciveAllFile = new JFrame();
-        frameReciveAllFile.setTitle("DOWNLOADER [" + clientNo + "]");
+        frameReciveAllFile.setTitle("DOWNLOADER []");
         frameReciveAllFile.setSize(780, 570);
         frameReciveAllFile.setResizable(false);
         frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
@@ -92,10 +92,13 @@ public class Client {
             downloadButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    int confirm = JOptionPane.showConfirmDialog(panelFileList,
-                            "Do you want to download " + downloadButton.getName() + " ?", "Customized Dialog",
-                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                            new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/among.png"));
+                    int confirm = JOptionPane.showConfirmDialog(
+                            panelFileList,
+                            "Do you want to download " + downloadButton.getName() + " ?"
+                            , "Customized Dialog"
+                            ,JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
+                            ,new ImageIcon("C:/Users/katakarn/Desktop/Server Files/among.jpg")
+                            );
                     if (confirm == 0) {
                         reqFile();
                     }

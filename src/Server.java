@@ -4,6 +4,8 @@ import java.nio.file.*;
 import java.time.*;
 import java.time.format.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -32,13 +34,18 @@ public class Server {
         frameServer.setSize(600, 600);
         frameServer.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
         frameServer.setVisible(true);
-        // panel welcome
-        JPanel jPanel = new JPanel();
-        // jPanel.setBounds(156, 424, 156, 424);
-        jPanel.setBounds(220, 250, 185, 92);
+
+        // panel Text
+        JPanel jPanelText = new JPanel();
+        jPanelText.setSize(300, 300);
+        // lable text
+        JLabel jLabelText = new JLabel();
+        jLabelText.setText("Welcome To Server");
+        jLabelText.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
+
         // panel buttonlog
-        JPanel jPanel2 = new JPanel();
-        jPanel2.setBounds(280, 67, 133, 92);
+        JPanel jPanelButton = new JPanel();
+        jPanelButton.setSize(20, 20);
         // button
         JButton jButton1 = new JButton();
         jButton1.setText("Log");
