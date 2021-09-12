@@ -2,11 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
 public class Client {
-
     Socket socketClient;
     DataInputStream din;
     DataOutputStream dout;
@@ -15,12 +15,10 @@ public class Client {
     Object[][] fileList;
     String file;
     JButton downloadButton = new JButton();
-    JPanel panelFileList;
-<<<<<<< HEAD
-=======
+    JPanel panelFileList;<<<<<<<HEAD=======
     int total = 0;
 
->>>>>>> origin/anupap
+    >>>>>>>origin/anupap
 
     public static void main(String[] args) throws IOException {
         new Client().run();
@@ -36,6 +34,14 @@ public class Client {
     }
 
     public void reciveAllFile() {
+        JFrame frameReciveAllFile = new JFrame();
+        frameReciveAllFile.setTitle("DOWNLOADER []");
+        frameReciveAllFile.setSize(780, 570);
+        frameReciveAllFile.setResizable(false);
+        frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+        frameReciveAllFile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frameReciveAllFile.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
+        frameReciveAllFile.setVisible(true);
 
         try {
             din = new DataInputStream(socketClient.getInputStream());
@@ -59,18 +65,9 @@ public class Client {
                         + fileList[i][0].toString().substring(0, fileList[i][0].toString().lastIndexOf("."));
                 rowfileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1,
                         fileList[i][1].toString().length());
-                rowfileList[i][2] = fileList[i][2].toString() + " KB  ";
+                rowfileList[i][2] = fileList[i][2].toString() + " KB ";
                 rowfileList[i][3] = fileList[i][0].toString();
             }
-
-            JFrame frameReciveAllFile = new JFrame();
-            frameReciveAllFile.setTitle("DOWNLOADER");
-            frameReciveAllFile.setSize(780, 570);
-            frameReciveAllFile.setResizable(false);
-            frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
-            frameReciveAllFile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frameReciveAllFile.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
-            frameReciveAllFile.setVisible(true);
 
             TableCellRenderer tableRenderer;
             DefaultTableModel model = new DefaultTableModel();
@@ -173,11 +170,12 @@ public class Client {
                     System.out.println(Thread.currentThread().getName());
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
-<<<<<<< HEAD
-                    String filePath = "C:/Users/katakarn/Desktop/Client Files/" + downloadButton.getName();
-=======
+
                     String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/" + downloadButton.getName();
->>>>>>> origin/anupap
+
+
+                            
+
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();
                     RandomAccessFile writer = new RandomAccessFile(filePath, "rw");
