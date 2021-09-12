@@ -31,14 +31,6 @@ public class Client {
     }
 
     public void reciveAllFile() {
-        JFrame frameReciveAllFile = new JFrame();
-        frameReciveAllFile.setTitle("DOWNLOADER");
-        frameReciveAllFile.setSize(780, 570);
-        frameReciveAllFile.setResizable(false);
-        frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
-        frameReciveAllFile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameReciveAllFile.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
-        frameReciveAllFile.setVisible(true);
 
         try {
             din = new DataInputStream(socketClient.getInputStream());
@@ -58,12 +50,23 @@ public class Client {
                 fileList[i][2] = din.readUTF(); // ขนาดไฟล์
             }
             for (int i = 0; i < FileLength; i++) {
-                rowfileList[i][0] = "  " + fileList[i][0].toString().substring(0,fileList[i][0].toString().lastIndexOf("."));
-                rowfileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1, fileList[i][1].toString().length());
-                rowfileList[i][2] = fileList[i][2].toString() + " KB ";
+                rowfileList[i][0] = "  "
+                        + fileList[i][0].toString().substring(0, fileList[i][0].toString().lastIndexOf("."));
+                rowfileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1,
+                        fileList[i][1].toString().length());
+                rowfileList[i][2] = fileList[i][2].toString() + " KB  ";
                 rowfileList[i][3] = fileList[i][0].toString();
             }
-            
+
+            JFrame frameReciveAllFile = new JFrame();
+            frameReciveAllFile.setTitle("DOWNLOADER");
+            frameReciveAllFile.setSize(780, 570);
+            frameReciveAllFile.setResizable(false);
+            frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+            frameReciveAllFile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frameReciveAllFile.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
+            frameReciveAllFile.setVisible(true);
+
             TableCellRenderer tableRenderer;
             DefaultTableModel model = new DefaultTableModel();
             model.setDataVector(rowfileList, colHeaderFileList);
@@ -73,8 +76,8 @@ public class Client {
             panelFileList = new JPanel();
             tableFileList.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
             tableFileList.setRowHeight(40);
-            tableFileList.setPreferredScrollableViewportSize(new Dimension(750,500)); //ปรับขนาดตาราง
-            tableFileList.getColumnModel().getColumn(0).setPreferredWidth(400); //ปรับขนาดคอลัม
+            tableFileList.setPreferredScrollableViewportSize(new Dimension(750, 500)); // ปรับขนาดตาราง
+            tableFileList.getColumnModel().getColumn(0).setPreferredWidth(400); // ปรับขนาดคอลัม
 
             // ปรับข้อความชิดซ้ายชิดขวา
             DefaultTableCellRenderer d = new DefaultTableCellRenderer();
@@ -89,10 +92,13 @@ public class Client {
             downloadButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    int confirm = JOptionPane.showConfirmDialog(panelFileList,
-                            "Do you want to download " + downloadButton.getName() + " ?", "Customized Dialog",
-                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                            new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/among.png"));
+                    int confirm = JOptionPane.showConfirmDialog(
+                            panelFileList,
+                            "Do you want to download " + downloadButton.getName() + " ?"
+                            , "Customized Dialog"
+                            ,JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
+                            ,new ImageIcon("C:/Users/katakarn/Desktop/Server Files/among.jpg")
+                            );
                     if (confirm == 0) {
                         reqFile();
                     }
@@ -109,13 +115,13 @@ public class Client {
     }
 
     public void reqFile() {
-      
-            try {
-                dout.writeUTF(downloadButton.getName().toString());
-                reciveReqrFile();
-            } catch (Exception e) {
 
-            }
+        try {
+            dout.writeUTF(downloadButton.getName().toString());
+            reciveReqrFile();
+        } catch (Exception e) {
+
+        }
 
     }
 
@@ -127,8 +133,7 @@ public class Client {
                     System.out.println(Thread.currentThread().getName());
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
-                    String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/"
-                            + downloadButton.getName();
+                    String filePath = "C:/Users/katakarn/Desktop/Client Files/" + downloadButton.getName();
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();
                     RandomAccessFile writer = new RandomAccessFile(filePath, "rw");
