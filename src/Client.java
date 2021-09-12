@@ -2,11 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
 public class Client {
-
     Socket socketClient;
     DataInputStream din;
     DataOutputStream dout;
@@ -16,6 +16,7 @@ public class Client {
     String file;
     JButton downloadButton = new JButton();
     JPanel panelFileList;
+
 
     public static void main(String[] args) throws IOException {
         new Client().run();
@@ -32,7 +33,7 @@ public class Client {
 
     public void reciveAllFile() {
         JFrame frameReciveAllFile = new JFrame();
-        frameReciveAllFile.setTitle("DOWNLOADER");
+        frameReciveAllFile.setTitle("DOWNLOADER [" + clientNo + "]");
         frameReciveAllFile.setSize(780, 570);
         frameReciveAllFile.setResizable(false);
         frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
@@ -58,12 +59,14 @@ public class Client {
                 fileList[i][2] = din.readUTF(); // ขนาดไฟล์
             }
             for (int i = 0; i < FileLength; i++) {
-                rowfileList[i][0] = "  " + fileList[i][0].toString().substring(0,fileList[i][0].toString().lastIndexOf("."));
-                rowfileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1, fileList[i][1].toString().length());
+                rowfileList[i][0] = "  "
+                        + fileList[i][0].toString().substring(0, fileList[i][0].toString().lastIndexOf("."));
+                rowfileList[i][1] = fileList[i][1].toString().substring(fileList[i][1].toString().indexOf("/") + 1,
+                        fileList[i][1].toString().length());
                 rowfileList[i][2] = fileList[i][2].toString() + " KB ";
                 rowfileList[i][3] = fileList[i][0].toString();
             }
-            
+
             TableCellRenderer tableRenderer;
             DefaultTableModel model = new DefaultTableModel();
             model.setDataVector(rowfileList, colHeaderFileList);
@@ -73,8 +76,8 @@ public class Client {
             panelFileList = new JPanel();
             tableFileList.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
             tableFileList.setRowHeight(40);
-            tableFileList.setPreferredScrollableViewportSize(new Dimension(750,500)); //ปรับขนาดตาราง
-            tableFileList.getColumnModel().getColumn(0).setPreferredWidth(400); //ปรับขนาดคอลัม
+            tableFileList.setPreferredScrollableViewportSize(new Dimension(750, 500)); // ปรับขนาดตาราง
+            tableFileList.getColumnModel().getColumn(0).setPreferredWidth(400); // ปรับขนาดคอลัม
 
             // ปรับข้อความชิดซ้ายชิดขวา
             DefaultTableCellRenderer d = new DefaultTableCellRenderer();
@@ -109,13 +112,13 @@ public class Client {
     }
 
     public void reqFile() {
-      
-            try {
-                dout.writeUTF(downloadButton.getName().toString());
-                reciveReqrFile();
-            } catch (Exception e) {
 
-            }
+        try {
+            dout.writeUTF(downloadButton.getName().toString());
+            reciveReqrFile();
+        } catch (Exception e) {
+
+        }
 
     }
 
@@ -127,7 +130,7 @@ public class Client {
                     System.out.println(Thread.currentThread().getName());
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
-                    String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/"
+                    String filePath = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileClient/"
                             + downloadButton.getName();
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();
