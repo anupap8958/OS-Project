@@ -36,6 +36,7 @@ public class Server {
         frameServer.setTitle("Server");
         frameServer.setSize(600, 600);
         frameServer.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+        frameServer.setBackground(Color.magenta);
         frameServer.setVisible(true);
 
         // Backgroung

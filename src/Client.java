@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -33,7 +32,7 @@ public class Client {
 
     public void reciveAllFile() {
         JFrame frameReciveAllFile = new JFrame();
-        frameReciveAllFile.setTitle("DOWNLOADER []");
+        frameReciveAllFile.setTitle("DOWNLOADER");
         frameReciveAllFile.setSize(780, 570);
         frameReciveAllFile.setResizable(false);
         frameReciveAllFile.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
@@ -92,10 +91,13 @@ public class Client {
             downloadButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    int confirm = JOptionPane.showConfirmDialog(panelFileList,
-                            "Do you want to download " + downloadButton.getName() + " ?", "Customized Dialog",
-                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                            new ImageIcon("C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileClient/"));
+                    int confirm = JOptionPane.showConfirmDialog(
+                            panelFileList,
+                            "Do you want to download " + downloadButton.getName() + " ?"
+                            , "Customized Dialog"
+                            ,JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
+                            ,new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/meaow2.png")
+                            );
                     if (confirm == 0) {
                         reqFile();
                     }
@@ -126,32 +128,38 @@ public class Client {
         int size = din.readInt();
         JProgressBar progressBar = new JProgressBar();
         progressBar.setStringPainted(true);
-        progressBar.setBounds(50, 25, 300, 150);
+        progressBar.setBounds(50 , 25, 200 ,150);
 
-        JFrame downloadFrame = new JFrame("DOWNLOADER");
-        downloadFrame.setSize(400, 200);
+        JFrame downloadFrame = new JFrame("DOWNLOADING");
+        downloadFrame.setSize(300, 100);
         downloadFrame.setResizable(false);
         downloadFrame.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
         downloadFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         downloadFrame.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
-        downloadFrame.getContentPane().add(progressBar);
+        downloadFrame.add(progressBar);
         downloadFrame.setVisible(true);
-
+        
         total = 0;
         new Thread(() -> {
             boolean success = false;
-            while (!success) {
+            while(!success) {
                 try {
                     Thread.sleep(100);
-                    if (total < size) {
-                        progressBar.setValue((int) ((total * 100.0) / size));
+                    if(total < size){
+                        progressBar.setValue((int)((total*100.0) / size));
                     } else {
                         success = true;
                         progressBar.setValue(100);
+                        progressBar.setVisible(false);
+                        downloadFrame.setVisible(false);
+                        JOptionPane.showConfirmDialog(
+                            downloadFrame, "Download complete", "Status",
+                        JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/meaow.png")
+                        );
                     }
                 } catch (Exception e) {
-
-                }
+                    
+                } 
             }
         }).start();
 
@@ -162,8 +170,7 @@ public class Client {
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
 
-                    String filePath = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileClient/"
-                            + downloadButton.getName();
+                    String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/" + downloadButton.getName();
 
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();
