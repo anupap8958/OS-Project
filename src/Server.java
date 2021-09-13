@@ -25,6 +25,7 @@ public class Server {
     }
 
     public Server() {
+<<<<<<< HEAD
         // เพิ่ม gui
         // Frame
         JFrame frameServer = new JFrame();
@@ -65,11 +66,18 @@ public class Server {
         background.add(jLabel1);
         background.add(jButton1);
 
+=======
+
+>>>>>>> origin/anupap
         // frameLog
         frameLog.setSize(500, 500);
         frameLog.setTitle("SERVER [Log]");
         frameLog.setLocationRelativeTo(null);
         frameLog.setResizable(false);
+<<<<<<< HEAD
+=======
+        frameLog.setVisible(true);
+>>>>>>> origin/anupap
 
         textAreaLog.setEditable(false);
         textAreaLog.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
@@ -100,7 +108,11 @@ public class Server {
         Socket socketClient;
         DataInputStream din;
         DataOutputStream dout;
+<<<<<<< HEAD
         String path = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileServer/";
+=======
+        String path = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/server/";
+>>>>>>> origin/anupap
         File file = new File(path);
         File[] fileName;
 
@@ -134,6 +146,7 @@ public class Server {
                 // TODO: handle exception
             }
         }
+<<<<<<< HEAD
 
         public void sendFileReqToClient() throws IOException {
             String reqFile;
@@ -180,6 +193,54 @@ public class Server {
                                                 break;
                                             }
 
+=======
+
+        public void sendFileReqToClient() throws IOException {
+            String reqFile;
+            try {
+
+                while (true) {
+                    reqFile = din.readUTF();
+                    textAreaLog.append("[ " + date + " ]" + " : Client requirement file ----> " + reqFile + "\n");
+                    for (int i = 0; i < fileName.length; i++) {
+                        if (reqFile.equals(fileName[i].getName())) {
+                            File file = fileName[i];
+                            dout.writeInt((int) file.length());
+                            int sizeFile = (int) file.length() / 10;
+                            for (int start = 0; start < 10; start++) {
+
+                                Socket socket = socketServer.accept();
+                                int s = start;
+                                int fileLength = start == 9 ? (int) file.length() - (sizeFile * 9) : sizeFile;
+                                int indexStart = s * sizeFile;
+                                new Thread(() -> {
+                                    try {
+                                        DataOutputStream doutClient = new DataOutputStream(socket.getOutputStream());
+                                        DataInputStream dinClient = new DataInputStream(
+                                                new FileInputStream(file.getAbsolutePath()));
+                                        doutClient.writeInt(indexStart);
+                                        doutClient.writeInt(fileLength);
+                                        byte[] dataPatial = new byte[1024];
+                                        // System.out.println(Thread.currentThread().getName() + " : start :" +
+                                        // indexStart
+                                        // + " , end : " + (indexStart + fileLength) + " , flieLength :" + fileLength);
+
+                                        dinClient.skip(indexStart);
+
+                                        int count = 0;
+                                        int total = 0;
+
+                                        while ((count = dinClient.read(dataPatial)) != -1) {
+                                            total += count;
+
+                                            doutClient.write(dataPatial, 0, count);
+                                            if (total >= fileLength) {
+                                                textAreaLog.append("[ " + date + " ]" + " : Server submit "
+                                                        + Thread.currentThread().getName() + " successfully\n");
+                                                break;
+                                            }
+
+>>>>>>> origin/anupap
                                         }
                                         doutClient.close();
                                         dinClient.close();
