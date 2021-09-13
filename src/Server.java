@@ -5,7 +5,6 @@ import java.time.*;
 import java.time.format.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class Server {
     ServerSocket socketServer; //เป็นตัวกลางหรือเป็นช่องทางในการติดต่อ รับ-ส่ง ข้อมูล
