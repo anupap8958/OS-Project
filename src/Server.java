@@ -5,7 +5,6 @@ import java.time.*;
 import java.time.format.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class Server {
     ServerSocket socketServer;
@@ -25,51 +24,13 @@ public class Server {
     }
 
     public Server() {
-        // เพิ่ม gui
-        // Frame
-        JFrame frameServer = new JFrame();
-        frameServer.setTitle("Server");
-        frameServer.setSize(600, 600);
-        frameServer.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
-        frameServer.setBackground(Color.magenta);
-        frameServer.setVisible(true);
-
-        // Backgroung
-        String pathImg = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/img.png";
-        JLabel background = new JLabel(new ImageIcon(pathImg));
-        frameServer.add(background);
-        background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
-
-        // button
-        JButton jButton1 = new JButton();
-        jButton1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        jButton1.setText("Log");
-        jButton1.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                frameServer.setVisible(false);
-                frameLog.setVisible(true);
-
-            }
-
-        });
-        // lable welcome
-        JLabel jLabel1 = new JLabel();
-        jLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        jLabel1.setText("Welcome To Server");
-        jLabel1.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
-        frameServer.setLayout(new BoxLayout(frameServer.getContentPane(), BoxLayout.Y_AXIS));
-        frameServer.setLocationRelativeTo(null);
-
-        background.add(jLabel1);
-        background.add(jButton1);
 
         // frameLog
         frameLog.setSize(500, 500);
         frameLog.setTitle("SERVER [Log]");
         frameLog.setLocationRelativeTo(null);
         frameLog.setResizable(false);
+        frameLog.setVisible(true);
 
         textAreaLog.setEditable(false);
         textAreaLog.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
