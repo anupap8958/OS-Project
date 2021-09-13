@@ -121,9 +121,6 @@ public class Server {
                                         doutClient.writeInt(indexStart);
                                         doutClient.writeInt(fileLength);
                                         byte[] dataPatial = new byte[1024];
-                                        // System.out.println(Thread.currentThread().getName() + " : start :" +
-                                        // indexStart
-                                        // + " , end : " + (indexStart + fileLength) + " , flieLength :" + fileLength);
 
                                         dinClient.skip(indexStart);
 
