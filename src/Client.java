@@ -20,7 +20,7 @@ public class Client {
     public static void main(String[] args) throws IOException {
         new Client().run();
     }
-
+//ส่วนของการร้องขอเข้าเชื่อมต่อ
     public Client() {
         try {
             socketClient = new Socket("localhost", PORT);
@@ -29,7 +29,7 @@ public class Client {
             // TODO: handle exception
         }
     }
-
+//รับไฟล์ทั้งหมดของ server
     public void reciveAllFile() {
         JFrame frameReciveAllFile = new JFrame();
         frameReciveAllFile.setTitle("DOWNLOADER");
@@ -43,19 +43,19 @@ public class Client {
         try {
             din = new DataInputStream(socketClient.getInputStream());
             dout = new DataOutputStream(socketClient.getOutputStream());
-            FileLength = din.readInt();
+            FileLength = din.readInt(); //อ่านค่าไฟล์ทั้งหมดที่ server ต้องทำการส่ง
             fileList = new Object[FileLength][4];
 
             String[] colHeaderFileList = { "All File", "File Type", "Size", "Action" };
             String[][] rowfileList = new String[FileLength][4];
             for (int i = 0; i < FileLength; i++) {
-                fileList[i][0] = din.readUTF(); // ชื่อไฟล์
+                fileList[i][0] = din.readUTF(); // อ่านชื่อไฟล์
             }
             for (int i = 0; i < FileLength; i++) {
-                fileList[i][1] = din.readUTF(); // ชนิดข้อมูลไฟล์
+                fileList[i][1] = din.readUTF(); // อ่านชนิดข้อมูลไฟล์
             }
             for (int i = 0; i < FileLength; i++) {
-                fileList[i][2] = din.readUTF(); // ขนาดไฟล์
+                fileList[i][2] = din.readUTF(); // อ่านขนาดไฟล์
             }
             for (int i = 0; i < FileLength; i++) {
                 rowfileList[i][0] = "  "
@@ -98,7 +98,7 @@ public class Client {
                             ,JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
                             ,new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/meaow2.png")
                             );
-                    if (confirm == 0) {
+                    if (confirm == 0) { //หากกด confirm ที่ dialog จะไปทำงานที่ method reqFile();
                         reqFile();
                     }
                 }
@@ -112,11 +112,11 @@ public class Client {
         }
 
     }
-
+    //ส่งไฟล์ที่ต้องการหา server
     public void reqFile() {
 
         try {
-            dout.writeUTF(downloadButton.getName().toString());
+            dout.writeUTF(downloadButton.getName().toString());//เขียนชื่อไฟล์ที่ต้องการ
             reciveReqrFile();
         } catch (Exception e) {
 
@@ -140,13 +140,15 @@ public class Client {
         downloadFrame.setVisible(true);
         
         total = 0;
+
+        //Thread progress bar
         new Thread(() -> {
             boolean success = false;
             while(!success) {
                 try {
                     Thread.sleep(100);
                     if(total < size){
-                        progressBar.setValue((int)((total*100.0) / size));
+                        progressBar.setValue((int)((total*100.0) / size));//สูตรคิด %
                     } else {
                         success = true;
                         progressBar.setValue(100);
@@ -163,6 +165,7 @@ public class Client {
             }
         }).start();
 
+        //Thread การรับข้อมูล
         for (int i = 0; i < 10; i++) {
             new Thread(() -> {
                 try {
@@ -170,25 +173,21 @@ public class Client {
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
 
-<<<<<<< HEAD
                     String filePath = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileClient/" + downloadButton.getName();
-=======
-                    String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/" + downloadButton.getName();
->>>>>>> origin/anupap
 
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();
-                    RandomAccessFile writer = new RandomAccessFile(filePath, "rw");
-                    writer.seek(startIndex);
+                    RandomAccessFile writer = new RandomAccessFile(filePath, "rw");//ตัวที่กำหนดให้สามารถเขียนและอ่านพร้อมกันได้
+                    writer.seek(startIndex);//seek เหมือน skip
                     byte[] data = new byte[1024];
                     int receive = 0;
-                    while (receive > -1) {
+                    while (receive > -1) {//ถ้า receive อ่านข้อมูลชุดสุดท้ายของ thread นั้นๆแล้วจะไม่อ่านอีกต่อไปและมีค่าเป็น -1
 
                         receive = dinClient.read(data);
                         if (receive == -1) {
                             break;
                         }
-                        writer.write(data, 0, receive);
+                        writer.write(data, 0, receive);//อ่านข้อมูลตั้งแต่เริ่มต้น thread จนถึงชุดสุดท้ายของ thread ครั้งละ data ซึ่งค่าปกติที่อ่านคือ 1024 แต่อาจจะอ่านไม่ถึงก็ได้
                         updateDownload(receive);
                     }
                     System.out.println("finish");
@@ -206,7 +205,7 @@ public class Client {
         }
     }
 
-    private synchronized void updateDownload(int read) {
+    private synchronized void updateDownload(int read) { //ทำหน้าที่ block ไม่ให้เกิด transection เพื่อไม่ให้ update ค่าผิดพลาด
         total += read;
     }
 
