@@ -92,13 +92,10 @@ public class Client {
             downloadButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    int confirm = JOptionPane.showConfirmDialog(
-                            panelFileList,
-                            "Do you want to download " + downloadButton.getName() + " ?"
-                            , "Customized Dialog"
-                            ,JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE
-                            ,new ImageIcon("C:/Users/tubti/OneDrive - Silpakorn University/Documents/Threadamong.png")
-                            );
+                    int confirm = JOptionPane.showConfirmDialog(panelFileList,
+                            "Do you want to download " + downloadButton.getName() + " ?", "Customized Dialog",
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                            new ImageIcon("C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileClient/"));
                     if (confirm == 0) {
                         reqFile();
                     }
@@ -129,7 +126,7 @@ public class Client {
         int size = din.readInt();
         JProgressBar progressBar = new JProgressBar();
         progressBar.setStringPainted(true);
-        progressBar.setBounds(50 , 25, 300 ,150);
+        progressBar.setBounds(50, 25, 300, 150);
 
         JFrame downloadFrame = new JFrame("DOWNLOADER");
         downloadFrame.setSize(400, 200);
@@ -139,22 +136,22 @@ public class Client {
         downloadFrame.setLocationRelativeTo(null); // ปรับให้ frame อยู่กลางจอ
         downloadFrame.getContentPane().add(progressBar);
         downloadFrame.setVisible(true);
-        
+
         total = 0;
         new Thread(() -> {
             boolean success = false;
-            while(!success) {
+            while (!success) {
                 try {
                     Thread.sleep(100);
-                    if(total < size){
-                        progressBar.setValue((int)((total*100.0) / size));
+                    if (total < size) {
+                        progressBar.setValue((int) ((total * 100.0) / size));
                     } else {
                         success = true;
                         progressBar.setValue(100);
                     }
                 } catch (Exception e) {
-                    
-                } 
+
+                }
             }
         }).start();
 
@@ -165,10 +162,8 @@ public class Client {
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
 
-                    String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/" + downloadButton.getName();
-
-
-                            
+                    String filePath = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileClient/"
+                            + downloadButton.getName();
 
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();

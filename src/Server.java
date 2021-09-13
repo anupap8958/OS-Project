@@ -3,8 +3,11 @@ import java.net.*;
 import java.nio.file.*;
 import java.time.*;
 import java.time.format.*;
+
+import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.border.Border;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,10 +24,10 @@ public class Server {
     String date = myDateObj.format(myFormatObj);
 
     int clientNo = 1;
+
     public static void main(String[] args) {
         new Server();
     }
-
 
     public Server() {
         // เพิ่ม gui
@@ -35,19 +38,15 @@ public class Server {
         frameServer.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
         frameServer.setVisible(true);
 
-        // panel Text
-        JPanel jPanelText = new JPanel();
-        jPanelText.setSize(300, 300);
-        // lable text
-        JLabel jLabelText = new JLabel();
-        jLabelText.setText("Welcome To Server");
-        jLabelText.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
+        // Backgroung
+        String pathImg = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/src/img.png";
+        JLabel background = new JLabel(new ImageIcon(pathImg));
+        frameServer.add(background);
+        background.setLayout(new BoxLayout(background,BoxLayout.Y_AXIS));
 
-        // panel buttonlog
-        JPanel jPanelButton = new JPanel();
-        jPanelButton.setSize(20, 20);
         // button
         JButton jButton1 = new JButton();
+        jButton1.setAlignmentX(Component.CENTER_ALIGNMENT);
         jButton1.setText("Log");
         jButton1.addActionListener(new ActionListener() {
 
@@ -61,14 +60,14 @@ public class Server {
         });
         // lable welcome
         JLabel jLabel1 = new JLabel();
+        jLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
         jLabel1.setText("Welcome To Server");
         jLabel1.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
         frameServer.setLayout(new BoxLayout(frameServer.getContentPane(), BoxLayout.Y_AXIS));
         frameServer.setLocationRelativeTo(null);
-        frameServer.add(jPanelText);
-        frameServer.add(jPanelButton);
-        jPanelText.add(jLabel1);
-        jPanelButton.add(jButton1);
+        
+        background.add(jLabel1);
+        background.add(jButton1);
 
         // frameLog
         frameLog.setSize(500, 500);
@@ -94,7 +93,7 @@ public class Server {
         Socket socketClient;
         DataInputStream din;
         DataOutputStream dout;
-        String path = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/server/";
+        String path = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileServer/";
         File file = new File(path);
         File[] fileName;
 
@@ -135,7 +134,7 @@ public class Server {
 
                 while (true) {
                     reqFile = din.readUTF();
-                    textAreaLog.append("[ " + date + " ]" + " : Client requirement file ----> " + reqFile+"\n");
+                    textAreaLog.append("[ " + date + " ]" + " : Client requirement file ----> " + reqFile + "\n");
                     for (int i = 0; i < fileName.length; i++) {
                         if (reqFile.equals(fileName[i].getName())) {
                             File file = fileName[i];
