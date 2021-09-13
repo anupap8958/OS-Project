@@ -170,11 +170,7 @@ public class Client {
                     Socket socket = new Socket("localhost", 8087);
                     DataInputStream dinClient = new DataInputStream(socket.getInputStream());
 
-<<<<<<< HEAD
-                    String filePath = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/FileClient/" + downloadButton.getName();
-=======
                     String filePath = "C:/Users/tubti/OneDrive - Silpakorn University/Documents/Thread/Client/" + downloadButton.getName();
->>>>>>> origin/anupap
 
                     int startIndex = dinClient.readInt();
                     int fileLength = dinClient.readInt();
