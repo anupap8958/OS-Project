@@ -3,12 +3,7 @@ import java.net.*;
 import java.nio.file.*;
 import java.time.*;
 import java.time.format.*;
-
-import javax.imageio.*;
 import javax.swing.*;
-import javax.swing.border.Border;
-
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -43,7 +38,7 @@ public class Server {
         String pathImg = "C:/Users/api_q/OneDrive/เดสก์ท็อป/OSProject/src/img.png";
         JLabel background = new JLabel(new ImageIcon(pathImg));
         frameServer.add(background);
-        background.setLayout(new BoxLayout(background,BoxLayout.Y_AXIS));
+        background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 
         // button
         JButton jButton1 = new JButton();
@@ -66,15 +61,26 @@ public class Server {
         jLabel1.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 20));
         frameServer.setLayout(new BoxLayout(frameServer.getContentPane(), BoxLayout.Y_AXIS));
         frameServer.setLocationRelativeTo(null);
-        
+
         background.add(jLabel1);
         background.add(jButton1);
 
         // frameLog
         frameLog.setSize(500, 500);
+        frameLog.setTitle("SERVER [Log]");
         frameLog.setLocationRelativeTo(null);
         frameLog.setResizable(false);
-        frameLog.add(textAreaLog);
+
+        textAreaLog.setEditable(false);
+        textAreaLog.setFont(new Font("TH-Sarabun-PSK", Font.BOLD, 13));
+        textAreaLog.setLineWrap(true);
+        textAreaLog.setWrapStyleWord(true);
+
+        JScrollPane jScrollPaneLog = new JScrollPane(textAreaLog);
+        jScrollPaneLog.setPreferredSize(new Dimension(450, 450));
+        JPanel panelLog = new JPanel();
+        panelLog.add(jScrollPaneLog);
+        frameLog.add( panelLog);
         try {
             socketServer = new ServerSocket(PORT);
             ServerSocket serverSocket = new ServerSocket(8087);
